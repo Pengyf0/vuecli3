@@ -20,7 +20,10 @@
     </div>
     <div class="content">
       <div id="echart1"></div>
-      <div id="echart1"></div>
+      <div class="twoEchart">
+        <div id="echart2"></div>
+      </div>
+      
     </div>
   </div>
 </template>
@@ -93,108 +96,207 @@ export default {
           }
         ]
       }
-      var mapChart2 = this.$echarts.init(document.getElementById("echart2"));
-      var option2 = {
-        // tooltip: {
-        //   show: true,
-        //   backgroundColor: "rgba(255,255,255,0.8)",
-        //   extraCssText: "box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);",
-        //   // borderWidth: 1,
-        //   // borderColor: "#eee",
-        //   position: ["2%", "64%"],
-        //   borderRadius: 2,
-        //   // padding: 0,
-        //   textStyle: {
-        //     color: "#6a717b"
-        //   },
-        //   grid: {
-        //       top: "10%",
-        //       bottom: "10%",
-        //       left: '3%',
-        //       right: '5%',
-        //       containLabel: true,
-        //     },
-
-        //   formatter: function(params) {
-        //     let color = ["#5FEA55", "#64A5F7", "#F7D36C", "#F56C67"];
-        //     let quotaGrade = params.data.quotaGrade;
-        //     let p = "";
-        //     let quotaName = params.data.quotaName;
-        //     for(var item in quotaName){ 
-        //       let name = quotaName[item];
-        //       let value = params.data.score[item];
-        //       let quotaColor = quotaGrade[item][value];
-        //       p += `<li><span style="display:inline-block;width:70%" >${name}</span><span style="display:inline-block;width:30%;color:${color[quotaColor]};text-align:center" >${value}</span></li>`
-        //     }
-        //     let htmlT = `<div style="background:#F7FAFF;margin:0px;padding:5px 10px;font-size:12px;width:200px;">
-        //       <p style="color:#124DAB;font-weight:600;text-align:center">
-        //       ${params.name}效能情况</p>
-        //         <ul>
-        //         <li style="color:#124DAB;"><span style="display:inline-block;width:70%" >单项能力</span><span style="display:inline-block;width:30%" >效能等级</span></li>
-        //         ${p}
-        //         </ul>
-        //       </div>`;
-
-        //     return htmlT;
-        //   }
-        // },
-        visualMap: {
-          type: "piecewise",
-          left: "84%",
-          bottom: "6%",
-          itemGap: 25,
-          pieces: this.areaColorGrade,
-          color: "#fff",
-          textStyle: {
-            color: "#000"
-          },
-          visibility: "off"
-        },
-        geo: {
-          roam: false,
-          map: "苏州",
-          zoom: 1.1,
-          label: {
-            normal: {
-              show: true,
-              color: "#fff"
-            }
-          },
-          itemStyle: {
-            opacity: 1,
-            areaColor: "",
-            emphasis: {
-              borderWidth: 2
-            }
-          },
-          regions: HighLightColor(Sichuandata)
-        },
-        series: [
-          {
-            name: "效能提升",
-            type: "map",
-            //map: "gansu",
-            map:"suzhou",
-            roam: false,
-            geoIndex: 0,
-            silent: false,
-            label: {
-              normal: {
-                color: "#fff"
-              }
-            },
-
-            data: []
-          }
-        ]
-      };
-      mapChart2.setOption(option2);
-      this.$echarts.registerMap("苏州", suzhoushi);
-      mapChart.resize();
+    
       // 绘制图表
       myChart1.setOption(option1);
       window.onresize = myChart1.resize;
        //window.addEventListener("resize", () => { myChart1.resize();});//多个echerts监听变化
+      let myChart2 = this.$echarts.init(document.getElementById("echart2"));
+      let seriesList = [1,2,3,4].map((item,index) => {
+              const obj = {}
+              obj.name = '里斯'
+              obj.value = 2
+              return obj
+          });
+      function opt(max, min, vmp, unit, flag1, flag2) {
+        let optn = {
+           visualMap: {
+            min: min,
+            max: max,
+            text: [vmp, "单位：" + unit],
+            realtime: false,
+            calculable: true,
+            inRange: {
+              color: ["lightskyblue", "yellow", "orangered"]
+            }
+          },
+          tooltip: {
+            formatter: function(params) {
+              return params.name + ": " + params.value + unit;
+            }
+          },
+           // 地图立体感
+          geo: [
+            {
+              map: 'suzhou',
+              roam: false,
+              zoom: 1.0,
+              zlevel: 2,
+              z: 1,
+              label: {
+                normal: {
+                  show: true
+                },
+                emphasis: {
+                  show: true
+                }
+              },
+              itemStyle: {
+                normal: {
+                  borderColor: '#0993a2',
+                  borderWidth: 2
+                },
+                emphasis: {
+                  borderWidth: 2,
+                  borderColor: '#0993a2'
+                }
+              }
+            },
+            {
+              map: 'suzhou',
+              roam: false,
+              zoom: 1.0,
+              zlevel: 0,
+              label: {
+                normal: {
+                  show: true
+                },
+                emphasis: {
+                  show: true
+                }
+              },
+              itemStyle: {
+                normal: {
+                  borderColor: '#639fdb',
+                  borderWidth: 1.5
+                },
+                emphasis: {
+                  borderWidth: 1.5,
+                  borderColor: '#639fdb'
+                }
+              }
+            },
+            {
+              map: 'suzhou',
+              roam: false,
+              zlevel: 1,
+              zoom: 1.0,
+              z: 1,
+
+              label: {
+                normal: {
+                  show: true
+                },
+                emphasis: {
+                  show: true
+                }
+              },
+              itemStyle: {
+                normal: {
+                  borderColor: '#035b64',
+                  borderWidth: 2,
+                  shadowColor: '#035b64',
+                  shadowBlur: 0,
+                  shadowOffsetX: 0,
+                  shadowOffsetY: 10
+
+                },
+                emphasis: {
+                  borderWidth: 3,
+                  borderColor: '#035b64'
+                }
+              }
+            },
+            {
+              map: 'suzhou',
+              roam: false,
+              zlevel: 1,
+              zoom: 1.0,
+              z: 1,
+
+              label: {
+                normal: {
+                  show: true
+                },
+                emphasis: {
+                  show: true
+                }
+              },
+              itemStyle: {
+                normal: {
+                  borderColor: '#077e8a',
+                  borderWidth: 2,
+                  shadowColor: 'rgb(11,73,101)',
+                  shadowBlur: 0,
+                  shadowOffsetX: -1,
+                  shadowOffsetY: 10
+
+                },
+                emphasis: {
+                  borderWidth: 3,
+                  borderColor: '#077e8a'
+                }
+              }
+            },
+            {
+              map: 'suzhou',
+              roam: false,
+              zoom: 1.0,
+              zlevel: 1,
+              z: 1,
+              label: {
+                normal: {
+                  show: true
+                },
+                emphasis: {
+                  show: true
+                }
+              },
+              itemStyle: {
+                normal: {
+                  borderColor: '#077e8a',
+                  borderWidth: 2,
+                  shadowColor: 'rgba(0, 0, 0, 0.1)',
+                  shadowBlur: 0,
+                  shadowOffsetX: -1,
+                  shadowOffsetY: 14
+
+                },
+                emphasis: {
+                  borderWidth: 3,
+                  borderColor: '#077e8a'
+                }
+              }
+            }
+          ],
+          series:  [{
+              name: "事项",
+              type: "map",
+              map: "suzhou",
+              coordinateSystem: 'geo',
+              zoom: 1.0,
+              zlevel: 3,
+              z: 3,
+              itemStyle: {
+                normal: {
+                  label: {
+                    show: true
+                  }
+                },
+                emphasis: {
+                  label: {
+                    show: true
+                  }
+                }
+              },
+              data: seriesList
+            }] || []
+        };
+        return optn;
+      }
+      let option2 = opt(1350, 160, "事项", "项", true, false);
+      this.$echarts.registerMap("suzhou", suzhoushi);
+      myChart2.setOption(option2, true);
     }
   }
 };
@@ -221,9 +323,12 @@ export default {
       height: 400px;
       //    width: 300px;
     }
-    #echart2 {
-      height: 400px;
-      //    width: 300px;
+    .twoEchart{
+      display: flex;
+       #echart2 {
+        height: 400px;
+        width: 400px;
+      }
     }
   }
 }

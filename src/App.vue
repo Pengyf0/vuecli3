@@ -1,22 +1,6 @@
 <template>
   <div id="app">
-      <div class="indexMain">
-       <div class="leftNav " :class="leftShow?'':'leftClose'">
-           <div class="imgTitle"></div>
-           <div class="item"
-                :class="{checked:item.checked}"
-                v-for=" (item,index) of leftList" :key="index"
-                @click="toPage(index)">
-               {{item.name}}
-           </div>
-           <footer class="foot" @click="leftChange">
-             <i :class="leftShow?'el-icon-s-fold':'el-icon-s-unfold'"></i>{{leftShow?'收缩':'展开'}}
-           </footer>
-       </div>
-       <div class="rightContent " :class="leftShow?'':'rightExpend'">
-          <router-view />
-       </div>
-    </div>
+    <router-view />
   </div>
 </template>
 <script>
@@ -28,23 +12,28 @@ export default {
     },
     data(){
         return{
-          leftList:[
-              {name:'首页',checked:true,path:'/'},
-              {name:'echarts',checked:false,path:'/echarts'},
-              {name:'轮播图',checked:false,path:'/circleImg'},
-              {name:'编辑器',checked:false,path:'/editor'},
-              {name:'常用组件库',checked:false,path:'/components'},
-              {name:'测试',checked:false,path:'/test'},
-          ],
+          leftList:[],
           leftShow:true,
         }
+    },
+    mounted(){
+      console.log(222,this.$router.options.routes);
+      let routes = this.$router.options.routes
+      this.leftList = routes.filter(item => {
+         if(item.tabActived===''){
+
+         }else{
+           return item
+         }
+      })
+      console.log(this.leftList);
     },
     methods:{
         toPage(ind){
             this.leftList.map(item => {
-              item.checked = false;
+              item.tabActived = false;
             })
-            this.leftList[ind].checked = true;
+            this.leftList[ind].tabActived = true;
             this.$router.push({
                 path:this.leftList[ind].path
             })

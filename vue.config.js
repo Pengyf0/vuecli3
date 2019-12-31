@@ -1,14 +1,21 @@
 module.exports = {
-  // devServer: {
-  //     proxy: {
-  //         '/api': {
-  //             target: 'http://www.example.org',
-  //             changeOrigin: true,
-  //             ws: true,
-  //             pathRewrite: {
-  //               '^/api': ''
-  //             }
-  //         }
-  //     }
-  // }
+  devServer: {
+      proxy: {
+          '/joke': {
+              target: 'https://api.apiopen.top',
+              changeOrigin: true,
+              ws: false,//是否开启proxy websokets
+              pathRewrite: {
+                '^/joke': ''
+              }
+          }
+      }
+  },
+  css:{
+    loaderOptions:{
+      sass:{
+        prependData:`@import "~@/assets/css/common.scss";`
+      }
+    }
+  }
 }
