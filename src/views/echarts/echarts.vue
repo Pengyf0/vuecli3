@@ -22,6 +22,7 @@
       <div id="echart1"></div>
       <div class="twoEchart">
         <div id="echart2"></div>
+        <div id="echart3"></div>
       </div>
       
     </div>
@@ -325,9 +326,16 @@ export default {
     }
     .twoEchart{
       display: flex;
+      justify-content: space-around;
        #echart2 {
         height: 400px;
         width: 400px;
+        border:1px solid red;
+      }
+       #echart3 {
+        height: 400px;
+        width: 400px;
+        border:1px solid red;
       }
     }
   }

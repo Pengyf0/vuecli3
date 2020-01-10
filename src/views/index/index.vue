@@ -61,11 +61,8 @@ export default {
   data() {
     let that = this;
     return {
-      a22: "a",
-      bList:[],
-      jokeList:[],
-      addd: null,
-       imgIndex: 1,
+      jokeList:[],//笑话列表
+      imgIndex: 1,
       imgList: [
         { url: img1, name: "11月的故事新翻" },
         { url: img2, name: "孙悟饭2" },
@@ -110,30 +107,17 @@ export default {
     };
   },
   watch: {
-    // a22(val,oldVal){
-    //    console.log("a: "+val, oldVal);
-    // }
-    // bList:function(val){
-    //    console.log("bList: "+val);
-    // }
   },
   computed: {
-    ...mapState(["countDay"])
+    ...mapState(["countDay"])//获取getter里面的计算属性。
   },
   methods: {
-    ...mapMutations(["addCountDay", "reduceCountDay"]),
+    ...mapMutations(["addCountDay", "reduceCountDay"]),//获取mutations里面的方法
     addDay() {
-      this.addCountDay();
-      //this.$store.commit('addCountDay')
-      this.a = "xiaobang"; //zhushi
+      this.addCountDay();//this.$store.commit('addCountDay')
     },
     reduceDay() {
-      this.reduceCountDay();
-      //this.$store.commit('reduceCountDay')
-      console.log(this.bList);
-     this.bList.push({
-        text: "xiaoshuaixiang"
-      });
+      this.reduceCountDay();//this.$store.commit('reduceCountDay')//调用的两种方法
       let a = 2;
       a == 1 ? "2": ""
       if (a == 1) {
@@ -141,13 +125,13 @@ export default {
       }
     },
     toclcle(){
-      this.toPage(2)
+      this.toPage({path: "/circleImg",name: "circleImg",title: "轮播图",tabActived: false},2)
       // this.$router.push({
       //   path:'/circleImg'
       // })
     },
     getJoke(){
-      api.getJokeList({page:1,count:5,type:'video'}).then(res => {
+      api.getJokeList({page:1,count:6,type:'video'}).then(res => {
         this.jokeList=res.result;
       })
       // console.time()

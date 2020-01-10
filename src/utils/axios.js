@@ -2,6 +2,7 @@ import axios from 'axios';
 import ViewUI from 'view-design'
 
 let axiosDeal = axios.create({
+  timeout:15000
   // baseURL:'/api',//可以将代理的地址放到这里来
 });
 // 添加请求拦截器

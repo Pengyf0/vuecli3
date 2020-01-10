@@ -6,7 +6,7 @@
            <div class="item"
                 :class="{checked:item.tabActived}"
                 v-for=" (item,index) of leftList" :key="index"
-                @click="toPage(index)">
+                @click="toPage(item,index)">
                {{item.title}}
            </div>
            <footer class="foot" @click="leftChange">
@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import { stringify } from 'querystring';
 export default {
     provide(){
       return {
@@ -34,17 +35,32 @@ export default {
     },
     mounted(){
       console.log(222,this.$router.options.routes[1].children);
-      let routes = this.$router.options.routes[1].children
-      this.leftList = routes.map(item => {
-        return item
-      })
+      let routes = this.$router.options.routes[1].children;//分为主页，登录页，及详情页面。
+      let routes2 = JSON.parse(sessionStorage.getItem('leftList'));
+      console.log('初始及变化后的路由',routes,routes2);
+      if(routes2){
+        this.leftList = routes2.map(item => {
+          return item
+        })
+      }else{
+        this.leftList = routes.map(item => {
+          return item
+        })
+      }
     },
     methods:{
-        toPage(ind){
+        toPage(routesItem,ind){
             this.leftList.map(item => {
               item.tabActived = false;
             })
-            this.leftList[ind].tabActived = true;
+            if(routesItem.path!='/myZone'){
+              this.leftList[ind].tabActived = true;
+            }else{
+              if('2'){
+                this.leftList[ind].tabActived = true;
+              }
+            }
+            sessionStorage.setItem('leftList',JSON.stringify(this.leftList))
             this.$router.push({
                 path:this.leftList[ind].path
             })
@@ -53,7 +69,6 @@ export default {
           window.onresize = this.leftChange();
         },
         leftChange(){
-          console.log(this.leftShow);
           this.leftShow = !this.leftShow;
         }
 

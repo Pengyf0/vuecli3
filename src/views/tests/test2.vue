@@ -14,6 +14,7 @@ export default {
 
       }
   },
+  
   methods:{
     twoToThree(){
       this.toPageson3()
