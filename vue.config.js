@@ -3,7 +3,7 @@ module.exports = {
       proxy: {
           '/joke': {
               target: 'https://api.apiopen.top',
-              changeOrigin: true,
+              changeOrigin: true,//是否跨域
               ws: false,//是否开启proxy websokets
               pathRewrite: {
                 '^/joke': ''
